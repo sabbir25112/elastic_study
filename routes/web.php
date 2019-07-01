@@ -21,6 +21,8 @@ Route::get('/location', function(Request $request) {
 	$search = $request->search;
 	$lat = $request->lat;
 	$lon = $request->lon;
-	$count = App\Location::search($search)->whereGeoDistance('geoPoint', [(double) $lon, (double) $lat], '1000m')->select(['id', 'uCode', 'Address', 'area', 'city', 'latitude', 'longitude'])->get()->toArray();
-	dd($count);
+	$locations = App\Location::search($search)->whereGeoDistance('geoPoint', [(double) $lon, (double) $lat], '1000m')->select(['id', 'uCode', 'Address', 'area', 'city', 'latitude', 'longitude'])->get()->toArray();
+	foreach ($locations as $locaiton) {
+		echo $locaiton['Address'] .'<br>';
+	}
 });
