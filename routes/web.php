@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,16 +11,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', 'SearchController@index');
 
-Route::get('/location', function(Request $request) {
-	$search = $request->search;
-	$lat = $request->lat;
-	$lon = $request->lon;
-	$locations = App\Location::search($search)->whereGeoDistance('geoPoint', [(double) $lon, (double) $lat], '1000m')->select(['id', 'uCode', 'Address', 'area', 'city', 'latitude', 'longitude'])->get()->toArray();
-	foreach ($locations as $locaiton) {
-		echo $locaiton['Address'] .'<br>';
-	}
-});
+Route::get('/location', 'SearchController@index');
+Route::get('/location-autocomplete', 'SearchController@autocomplete')->name('location-autocomplete');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
